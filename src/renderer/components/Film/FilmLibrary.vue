@@ -2,7 +2,7 @@
   <div class="form-wrapper">
     <router-link to="/">Voltar</router-link>
     <h1 class="title">Filmes</h1>
-    <form v-on:submit.prevent="onSubmit">
+    <!-- <form v-on:submit.prevent="onSubmit">
       <div class="field">
         <label for="title" class="label"></label>
         <div class="control">
@@ -53,36 +53,25 @@
       </div>
       <button v-if="updating" class="button">Atualizar</button>
       <button v-else class="button">Adicionar</button>
-    </form>
+    </form>-->
     <h3>Lista de Animações</h3>
-    <table class="table is-bordered is-striped is-narrow is-hoverable is-fullwidth">
-      <tr>
-        <th>Título</th>
-        <th>Realizador(a)</th>
-        <th>País</th>
-        <th>Sinopse</th>
-        <th>Link</th>
-        <th>Imagem</th>
-        <td>Atualizar</td>
-        <td>Excluir</td>
-      </tr>
-      <tr v-for="(f, id) in films">
-        <td>{{ f.title }}</td>
-        <td>{{ f.director }}</td>
-        <td>{{ f.country }}</td>
-        <td>{{ f.synopsis }}</td>
-        <td>{{ f.link }}</td>
-        <td>
-          <img :src="f.image" class="is-16by9">
+    <v-data-table :headers="headers" :items="films" class="elevation-1">
+      <template v-slot:items="props">
+        <td>{{ props.item.title }}</td>
+        <td>{{ props.item.director }}</td>
+        <td>{{ props.item.country }}</td>
+        <td>{{ props.item.synopsis }}</td>
+        <td>{{ props.item.link }}</td>
+        <td>{{ props.item.image }}</td>
+        <td class="justify-center layout px-0">
+          <v-icon small class="mr-2" @click="editItem(props.item)">mdi-lead-pencil</v-icon>
+          <v-icon small @click="deleteItem(props.item)">mdi-delete</v-icon>
         </td>
-        <td v-on:click.prevent="onEdit(id)">
-          <a>✎</a>
-        </td>
-        <td v-on:click.prevent="onDelete(id)">
-          <a>✗</a>
-        </td>
-      </tr>
-    </table>
+      </template>
+      <!-- <template v-slot:no-data>
+        <v-btn color="primary" @click="initialize">Reset</v-btn>
+      </template>-->
+    </v-data-table>
   </div>
 </template>
 
@@ -90,38 +79,46 @@
 export default {
   data() {
     return {
+      headers: [
+        { text: 'Título', value: 'title' },
+        { text: 'Realizador(a)', value: 'director' },
+        { text: 'País', value: 'country' },
+        { text: 'Sinopse', value: 'synopsis' },
+        { text: 'Link', value: 'link' },
+        { text: 'Imagem', value: 'image' },
+        { text: 'Actions', value: 'actions', sortable: false }
+      ],
       updating: false,
       films: this.$store.getters.films,
       film: {
-        title: "",
-        direcotr: "",
-        country: "",
-        synopsis: "",
-        link: "",
-        image: ""
+        title: '',
+        direcotr: '',
+        country: '',
+        synopsis: '',
+        link: '',
+        image: ''
       }
-    };
+    }
   },
   methods: {
     onSubmit() {
       if (this.updating) {
-        this.onUpdate();
-        return;
+        this.onUpdate()
+        return
       }
-      this.$store.dispatch('addFilm', this.film);
+      this.$store.dispatch('addFilm', this.film)
       this.film = {
-        title: "",
-        direcotr: "",
-        country: "",
-        synopsis: "",
-        link: "",
-        image: ""
-      };
+        title: '',
+        direcotr: '',
+        country: '',
+        synopsis: '',
+        link: '',
+        image: ''
+      }
     }
   }
-};
+}
 </script>
 
-<style lang="sass" >
-  @import '~bulma/bulma.sass'
+<style>
 </style>
