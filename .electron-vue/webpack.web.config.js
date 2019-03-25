@@ -11,6 +11,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { VueLoaderPlugin } = require('vue-loader')
 
+const VuetifyLoaderPlugin = require('vuetify-loader/lib/plugin')
+
 let webConfig = {
   devtool: '#cheap-module-eval-source-map',
   entry: {
@@ -29,6 +31,10 @@ let webConfig = {
       {
         test: /\.less$/,
         use: ['vue-style-loader', 'css-loader', 'less-loader']
+      },
+      {
+        test: /\.styl$/,
+        loader: ['style-loader', 'css-loader', 'stylus-loader']
       },
       {
         test: /\.css$/,
@@ -82,6 +88,7 @@ let webConfig = {
   },
   plugins: [
     new VueLoaderPlugin(),
+    new VuetifyLoaderPlugin(),
     new MiniCssExtractPlugin({filename: 'styles.css'}),
     new HtmlWebpackPlugin({
       filename: 'index.html',
