@@ -11,6 +11,11 @@ export default new Router({
       component: require('@/components/Paca').default
     },
     {
+      path: '/film',
+      name: 'film',
+      component: require('@/components/Film/FilmLibrary').default
+    },
+    {
       path: '*',
       redirect: '/'
     }

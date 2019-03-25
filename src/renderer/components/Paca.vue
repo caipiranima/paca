@@ -1,5 +1,6 @@
 <template>
   <div id="wrapper">
+    <router-link to="/film">Adicionar animações</router-link>
     <film
       v-for="film in films"
       :key="film.id"
@@ -14,7 +15,7 @@
 
 <script>
 import Plyr from "plyr";
-import Film from "./Film";
+import Film from "./Film/Film";
 
 export default {
   components: {
