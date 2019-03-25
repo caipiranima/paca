@@ -1,7 +1,52 @@
 <template>
   <div class="form-wrapper">
     <router-link to="/">Voltar</router-link>
-    <h1 class="title">Filmes</h1>
+    <v-toolbar flat color="white">
+      <v-toolbar-title>Animações</v-toolbar-title>
+      <v-divider class="mx-2" inset vertical></v-divider>
+      <v-spacer></v-spacer>
+      <v-dialog v-model="dialog" max-width="500px">
+        <template v-slot:activator="{ on }">
+          <v-btn color="primary" dark class="mb-2" v-on="on">Nova animação</v-btn>
+        </template>
+        <v-card>
+          <v-card-title>
+            <span class="headline">{{ formTitle }}</span>
+          </v-card-title>
+
+          <v-card-text>
+            <v-container grid-list-md>
+              <v-layout wrap>
+                <v-flex md12>
+                  <v-text-field v-model="editedItem.title" label="Título"></v-text-field>
+                </v-flex>
+                <v-flex sm12 md6>
+                  <v-text-field v-model="editedItem.director" label="Realizador(a)"></v-text-field>
+                </v-flex>
+                <v-flex sm12 md6>
+                  <v-text-field v-model="editedItem.country" label="País"></v-text-field>
+                </v-flex>
+                <v-flex md12>
+                  <v-textarea v-model="editedItem.synopsis" label="Sinopse"></v-textarea>
+                </v-flex>
+                <v-flex md12>
+                  <v-text-field v-model="editedItem.link" label="Link"></v-text-field>
+                </v-flex>
+                <v-flex md12>
+                  <v-text-field v-model="editedItem.image" label="Imagem"></v-text-field>
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card-text>
+
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="blue darken-1" flat @click="close">Cancelar</v-btn>
+            <v-btn color="blue darken-1" flat @click="save">Salvar</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-toolbar>
     <!-- <form v-on:submit.prevent="onSubmit">
       <div class="field">
         <label for="title" class="label"></label>
@@ -54,7 +99,6 @@
       <button v-if="updating" class="button">Atualizar</button>
       <button v-else class="button">Adicionar</button>
     </form>-->
-    <h3>Lista de Animações</h3>
     <v-data-table :headers="headers" :items="films" class="elevation-1">
       <template v-slot:items="props">
         <td>{{ props.item.title }}</td>
@@ -68,9 +112,6 @@
           <v-icon small @click="deleteItem(props.item)">mdi-delete</v-icon>
         </td>
       </template>
-      <!-- <template v-slot:no-data>
-        <v-btn color="primary" @click="initialize">Reset</v-btn>
-      </template>-->
     </v-data-table>
   </div>
 </template>
@@ -79,6 +120,7 @@
 export default {
   data() {
     return {
+      dialog: false,
       headers: [
         { text: 'Título', value: 'title' },
         { text: 'Realizador(a)', value: 'director' },
@@ -90,7 +132,16 @@ export default {
       ],
       updating: false,
       films: this.$store.getters.films,
-      film: {
+      editedIndex: -1,
+      editedItem: {
+        title: '',
+        direcotr: '',
+        country: '',
+        synopsis: '',
+        link: '',
+        image: ''
+      },
+      defaultItem: {
         title: '',
         direcotr: '',
         country: '',
@@ -100,21 +151,47 @@ export default {
       }
     }
   },
+
+  computed: {
+    formTitle() {
+      return this.editedIndex === -1 ? 'Nova animação' : 'Editar animação'
+    }
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close()
+    }
+  },
+
   methods: {
-    onSubmit() {
-      if (this.updating) {
-        this.onUpdate()
-        return
+    editItem(item) {
+      this.editedIndex = this.films.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.dialog = true
+    },
+
+    deleteItem(item) {
+      const index = this.films.indexOf(item)
+      confirm('Are you sure you want to delete this item?') &&
+        this.films.splice(index, 1)
+    },
+
+    close() {
+      this.dialog = false
+      setTimeout(() => {
+        this.editedItem = Object.assign({}, this.defaultItem)
+        this.editedIndex = -1
+      }, 300)
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.films[this.editedIndex], this.editedItem)
+      } else {
+        this.$store.dispatch('addFilm', this.editedItem)
       }
-      this.$store.dispatch('addFilm', this.film)
-      this.film = {
-        title: '',
-        direcotr: '',
-        country: '',
-        synopsis: '',
-        link: '',
-        image: ''
-      }
+      this.close()
     }
   }
 }
