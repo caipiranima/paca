@@ -33,6 +33,7 @@
                   <v-text-field v-model="editedItem.link" label="Link"></v-text-field>
                 </v-flex>
                 <v-flex md12>
+                  <!-- TODO Arrumar um jeito melhor de adicionar a imagem --> 
                   <v-text-field v-model="editedItem.image" label="Imagem"></v-text-field>
                 </v-flex>
               </v-layout>
@@ -71,6 +72,7 @@ export default {
       dialog: false,
       headers: [
         { text: 'Título', value: 'title' },
+        // TODO Adicionar mais de um realizador na mesma animação 
         { text: 'Realizador(a)', value: 'director' },
         { text: 'País', value: 'country' },
         { text: 'Sinopse', value: 'synopsis' },
@@ -78,7 +80,6 @@ export default {
         { text: 'Imagem', value: 'image' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
-      updating: false,
       animations: this.$store.getters.animations,
       editedIndex: -1,
       editedItem: {

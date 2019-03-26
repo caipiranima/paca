@@ -30,6 +30,7 @@ export default {
     playAnimation(animationLink) {
       document
         .getElementById('player')
+        // FIXME Implementar provider condicional (youtube ou vimeo dependendo do link) 
         .setAttribute('data-plyr-provider', 'vimeo')
       document
         .getElementById('player')
