@@ -11,9 +11,9 @@ export default new Router({
       component: require('@/components/Paca').default
     },
     {
-      path: '/film',
-      name: 'film',
-      component: require('@/components/Film/FilmLibrary').default
+      path: '/animation',
+      name: 'animation',
+      component: require('@/components/Animation/AnimationsManager').default
     },
     {
       path: '*',

@@ -47,59 +47,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <!-- <form v-on:submit.prevent="onSubmit">
-      <div class="field">
-        <label for="title" class="label"></label>
-        <div class="control">
-          <input name="title" type="text" placeholder="Title" v-model="film.title" class="input">
-        </div>
-      </div>
-      <div class="field">
-        <label for="director" class="label"></label>
-        <div class="control">
-          <input
-            name="director"
-            type="text"
-            placeholder="Realizador(a)"
-            v-model="film.director"
-            class="input"
-          >
-        </div>
-      </div>
-      <div class="field">
-        <label for="country" class="label"></label>
-        <div class="control">
-          <input name="country" type="text" placeholder="País" v-model="film.country" class="input">
-        </div>
-      </div>
-      <div class="field">
-        <label for="synopsis" class="label"></label>
-        <div class="control">
-          <input
-            name="synopsis"
-            type="text"
-            placeholder="Sinopse"
-            v-model="film.synopsis"
-            class="input"
-          >
-        </div>
-      </div>
-      <div class="field">
-        <label for="link" class="label"></label>
-        <div class="control">
-          <input name="link" type="text" placeholder="Link" v-model="film.link" class="input">
-        </div>
-      </div>
-      <div class="field">
-        <label for="image" class="label"></label>
-        <div class="control">
-          <input name="image" type="text" placeholder="Sinopse" v-model="film.image" class="input">
-        </div>
-      </div>
-      <button v-if="updating" class="button">Atualizar</button>
-      <button v-else class="button">Adicionar</button>
-    </form>-->
-    <v-data-table :headers="headers" :items="films" class="elevation-1">
+    <v-data-table :headers="headers" :items="animations" class="elevation-1">
       <template v-slot:items="props">
         <td>{{ props.item.title }}</td>
         <td>{{ props.item.director }}</td>
@@ -131,11 +79,11 @@ export default {
         { text: 'Actions', value: 'actions', sortable: false }
       ],
       updating: false,
-      films: this.$store.getters.films,
+      animations: this.$store.getters.animations,
       editedIndex: -1,
       editedItem: {
         title: '',
-        direcotr: '',
+        director: '',
         country: '',
         synopsis: '',
         link: '',
@@ -143,7 +91,7 @@ export default {
       },
       defaultItem: {
         title: '',
-        direcotr: '',
+        director: '',
         country: '',
         synopsis: '',
         link: '',
@@ -166,15 +114,16 @@ export default {
 
   methods: {
     editItem(item) {
-      this.editedIndex = this.films.indexOf(item)
+      this.editedIndex = this.animations.indexOf(item)
       this.editedItem = Object.assign({}, item)
       this.dialog = true
     },
 
     deleteItem(item) {
-      const index = this.films.indexOf(item)
-      confirm('Are you sure you want to delete this item?') &&
-        this.films.splice(index, 1)
+      const index = this.animations.indexOf(item)
+      confirm('Tem certeza que deseja exluir essa animação?') &&
+        this.$store.dispatch('deleteAnimation', index)
+        
     },
 
     close() {
@@ -187,9 +136,9 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        Object.assign(this.films[this.editedIndex], this.editedItem)
+        this.$store.dispatch('editAnimation', { index: this.editedIndex, object: this.editedItem })
       } else {
-        this.$store.dispatch('addFilm', this.editedItem)
+        this.$store.dispatch('addAnimation', this.editedItem)
       }
       this.close()
     }

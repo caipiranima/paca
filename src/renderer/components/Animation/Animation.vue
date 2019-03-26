@@ -1,5 +1,5 @@
 <template>
-  <div class="film" v-on:click="$emit('play-film', link)">
+  <div class="animation" v-on:click="$emit('play-animation', link)">
     <img :src="image">
   </div>
 </template>

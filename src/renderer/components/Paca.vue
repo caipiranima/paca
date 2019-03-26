@@ -1,40 +1,40 @@
 <template>
   <div id="wrapper">
-    <router-link to="/film">Adicionar animações</router-link>
-    <film
-      v-for="film in films"
-      :key="film.id"
-      :name="film.name"
-      :image="film.image"
-      :link="film.link"
-      v-on:play-film="playFilm"
-    ></film>
+    <router-link to="/animation">Adicionar animações</router-link>
+    <animation
+      v-for="animation in animations"
+      :key="animation.id"
+      :name="animation.name"
+      :image="animation.image"
+      :link="animation.link"
+      v-on:play-animation="playAnimation"
+    ></animation>
     <div id="player"></div>
   </div>
 </template>
 
 <script>
-import Plyr from "plyr";
-import Film from "./Film/Film";
+import Plyr from 'plyr'
+import Animation from './Animation/Animation'
 
 export default {
   components: {
-    Film
+    Animation
   },
   data() {
     return {
-      films: this.$store.getters.films
-    };
+      animations: this.$store.getters.animations
+    }
   },
   methods: {
-    playFilm(videoLink) {
+    playAnimation(animationLink) {
       document
-        .getElementById("player")
-        .setAttribute("data-plyr-provider", "vimeo");
+        .getElementById('player')
+        .setAttribute('data-plyr-provider', 'vimeo')
       document
-        .getElementById("player")
-        .setAttribute("data-plyr-embed-id", videoLink);
-      const player = Plyr.setup("#player")[0];
+        .getElementById('player')
+        .setAttribute('data-plyr-embed-id', animationLink)
+      const player = Plyr.setup('#player')[0]
       //   player.source = {
       //     type: "video",
       //     sources: [
@@ -44,14 +44,14 @@ export default {
       //       }
       //     ]
       //   };
-      player.fullscreen.enter();
-      player.on("ready", () => {
-        player.play();
-      });
+      player.fullscreen.enter()
+      player.on('ready', () => {
+        player.play()
+      })
 
-      player.on("exitfullscreen", () => {
-        player.destroy();
-      });
+      player.on('exitfullscreen', () => {
+        player.destroy()
+      })
       //   player.on("ended", () => {
       //     player.source = {
       //       type: "video",
@@ -68,9 +68,9 @@ export default {
       //   });
     }
   }
-};
+}
 </script>
 
 <style>
-@import url("~plyr/dist/plyr.css");
+@import url('~plyr/dist/plyr.css');
 </style>

@@ -1,6 +1,6 @@
-function loadInitialState() {
+function loadAnimations() {
   return {
-    films: [
+    animations: [
       {
         id: 1,
         title: 'Pinocchio',
@@ -29,28 +29,44 @@ function loadInitialState() {
         image: 'https://i.vimeocdn.com/video/657124624.jpg?mw=800&mh=450'
       }
     ],
-    lastFilmID: 3
+    lastAnimationID: 3
   }
 }
 
-const state = loadInitialState()
+const state = loadAnimations()
 
 const getters = {
-  films() {
-    return state.films
+  animations() {
+    return state.animations
   }
 }
 
 const mutations = {
-  ADD_FILM(state, film) {
-    film.id = state.lastFilmID++
-    state.films.push(film)
+  ADD_ANIMATION(state, animation) {
+    animation.id = ++state.lastAnimationID
+    state.animations.push(animation)
+  },
+
+  DELETE_ANIMATION(state, index) {
+    state.animations.splice(index, 1)
+  },
+
+  EDIT_ANIMATION(state, animation) {
+    Object.assign(state.animations[animation.index], animation.object)
   }
 }
 
 const actions = {
-  addFilm({ commit }, film) {
-    commit('ADD_FILM', film)
+  addAnimation({ commit }, animation) {
+    commit('ADD_ANIMATION', animation)
+  },
+
+  deleteAnimation({ commit }, index) {
+    commit('DELETE_ANIMATION', index)
+  },
+
+  editAnimation({ commit }, animation) {
+    commit('EDIT_ANIMATION', animation)
   }
 }
 
