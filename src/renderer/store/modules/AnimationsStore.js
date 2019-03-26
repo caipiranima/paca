@@ -1,3 +1,4 @@
+// FIXME Carregar de arquivo JSON 
 function loadAnimations() {
   return {
     animations: [

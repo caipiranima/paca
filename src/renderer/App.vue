@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <v-app>
-      <router-view></router-view>
+      <div class="container">
+        <router-view></router-view>
+      </div>
     </v-app>
   </div>
 </template>
@@ -13,5 +15,7 @@
 </script>
 
 <style>
-  /* CSS */
+  .container {
+    padding: 24px;
+  }
 </style>
