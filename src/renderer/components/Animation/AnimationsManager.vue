@@ -51,8 +51,8 @@
     <v-data-table :headers="headers" :items="animations" class="elevation-1">
       <template v-slot:items="props">
         <td>{{ props.item.title }}</td>
-        <td>{{ props.item.director }}</td>
-        <td>{{ props.item.country }}</td>
+        <td>{{ directors.filter(x => props.item.directors.includes(x.id) ).map(x => x.name).join(', ') }}</td>
+        <td>{{ countries.filter(x => props.item.countries.includes(x.id) ).map(x => x.name).join(', ') }}</td>
         <td>{{ props.item.synopsis }}</td>
         <td>{{ props.item.link }}</td>
         <td>{{ props.item.image }}</td>
@@ -72,15 +72,16 @@ export default {
       dialog: false,
       headers: [
         { text: 'Título', value: 'title' },
-        // TODO Adicionar mais de um realizador na mesma animação 
-        { text: 'Realizador(a)', value: 'director' },
-        { text: 'País', value: 'country' },
+        { text: 'Realizadores', value: 'directors' },
+        { text: 'Países', value: 'countries' },
         { text: 'Sinopse', value: 'synopsis' },
         { text: 'Link', value: 'link' },
         { text: 'Imagem', value: 'image' },
         { text: 'Actions', value: 'actions', sortable: false }
       ],
       animations: this.$store.getters.animations,
+      directors: this.$store.getters.directors,
+      countries: this.$store.getters.countries,
       editedIndex: -1,
       editedItem: {
         title: '',
