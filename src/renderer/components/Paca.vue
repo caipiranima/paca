@@ -1,7 +1,7 @@
 <template>
   <div id="wrapper">
     <router-link to="/animation">Adicionar animações</router-link>
-    <v-container flex grid-list-md>
+    <v-container flex grid-list-lg>
       <v-layout row wrap>
         <animation
           v-for="animation in animations"
