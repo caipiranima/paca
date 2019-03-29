@@ -1,14 +1,18 @@
 <template>
   <div id="wrapper">
     <router-link to="/animation">Adicionar animações</router-link>
-    <animation
-      v-for="animation in animations"
-      :key="animation.id"
-      :name="animation.name"
-      :image="animation.image"
-      :link="animation.link"
-      v-on:play-animation="playAnimation"
-    ></animation>
+    <v-container flex grid-list-md>
+      <v-layout row wrap>
+        <animation
+          v-for="animation in animations"
+          :key="animation.id"
+          :name="animation.name"
+          :image="animation.image"
+          :link="animation.link"
+          v-on:play-animation="playAnimation"
+        ></animation>
+      </v-layout>
+    </v-container>
     <div id="player"></div>
   </div>
 </template>
