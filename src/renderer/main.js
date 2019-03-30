@@ -14,5 +14,8 @@ new Vue({
   components: { App },
   router,
   store,
-  template: '<App/>'
+  template: '<App/>',
+  created: function() {
+    this.$store.dispatch('loadLibrary')
+  }
 }).$mount('#app')

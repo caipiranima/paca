@@ -1,69 +1,13 @@
-// FIXME Carregar de arquivo JSON 
-function loadAnimations() {
-  return {
-    animations: [
-      {
-        id: 1,
-        title: 'Pinocchio',
-        directors: [ 1, 2 ],
-        countries: [ 1 ],
-        synopsis: 'Um filme',
-        link: 'https://vimeo.com/235527477',
-        image: 'https://i.vimeocdn.com/video/657420157.jpg?mw=800&mh=450',
-        tags: []
-      },
-      {
-        id: 2,
-        title: 'La Coda',
-        directors: [ 1 ],
-        countries: [ 1 ],
-        synopsis: 'Um filme',
-        link: 'https://vimeo.com/235343086',
-        image: 'https://i.vimeocdn.com/video/657160343.jpg?mw=800&mh=450',
-        tags: []
-      },
-      {
-        id: 3,
-        title: 'La Pista',
-        directors: [ 1 ],
-        countries: [ 1 ],
-        synopsis: 'Um filme',
-        link: 'https://vimeo.com/235321322',
-        image: 'https://i.vimeocdn.com/video/657124624.jpg?mw=800&mh=450',
-        tags: []
-      }
-    ],
-    lastAnimationID: 3,
-    directors: [
-      {
-        id: 1,
-        name: 'Gianluigi Toccafondo',
-        countries: [ 1 ],
-        biography: 'Um animador italiano',
-        image: 'http://www.acmefilmworks.com/wp-content/uploads/director-thumbs/gianluigi-toccafondo.jpg'
-      },
-      {
-        id: 2,
-        name: 'Bruno Bozzetto',
-        countries: [ 1 ],
-        biography: 'Um animador italiano',
-        image: 'http://www.acmefilmworks.com/wp-content/uploads/director-thumbs/gianluigi-toccafondo.jpg'
-      }
-    ],
-    lastDirectorID: 1,
-    countries: [
-      {
-        id: 1,
-        name: 'Itália',
-        history: 'A história da animação italiana é fodona',
-        image: 'http://www.firenze.net/it/img-contenuti/max_10171151333155.jpg'
-      }
-    ],
-    lastCountryID: 1
-  }
-}
+import axios from 'axios'
 
-const state = loadAnimations()
+const state = {
+  animations: [],
+  directors: [],
+  countries: [],
+  lastAnimationID: 0,
+  lastDirectorID: 0,
+  lastCountryID: 0
+}
 
 const getters = {
   animations() {
@@ -117,6 +61,21 @@ const mutations = {
 
   EDIT_COUNTRY(state, country) {
     Object.assign(state.countries[country.index], country.object)
+  },
+
+  LOAD_LIBRARY(state, data) {
+    data.animations.forEach(animation => {
+      state.animations.push(animation)
+    })
+    data.directors.forEach(director => {
+      state.directors.push(director)
+    })
+    data.countries.forEach(country => {
+      state.countries.push(country)
+    })
+    state.lastAnimationID = data.lastAnimationID
+    state.lastDirectorID = data.lastDirectorID
+    state.lastCountryID = data.lastCountryID
   }
 }
 
@@ -155,6 +114,14 @@ const actions = {
 
   editCountry({ commit }, country) {
     commit('EDIT_COUNTRY', country)
+  },
+
+  loadLibrary({ commit }) {
+    axios
+      .get('http://caipiranima.com.br/paca/dados/biblioteca.json')
+      .then(response => {
+        commit('LOAD_LIBRARY', response.data)
+      })
   }
 }
 
