@@ -20,11 +20,25 @@
                 <v-flex md12>
                   <v-text-field v-model="editedItem.title" label="Título"></v-text-field>
                 </v-flex>
-                <v-flex sm12 md6>
-                  <v-text-field v-model="editedItem.director" label="Realizador(a)"></v-text-field>
+                <v-flex md12>
+                  <v-autocomplete
+                    v-model="editedItem.directors"
+                    :items="directors"
+                    :item-value="(obj) => (obj).id"
+                    :item-text="(obj) => (obj).name"
+                    label="Realizadores"
+                    hide-selected
+                    hide-no-data
+                    clearable
+                    multiple
+                    small-chips
+                    deletable-chips
+                    :return-object="false"
+                  >
+                  </v-autocomplete>
                 </v-flex>
-                <v-flex sm12 md6>
-                  <v-text-field v-model="editedItem.country" label="País"></v-text-field>
+                <v-flex md12>
+                  <v-text-field v-model="editedItem.country" label="Países"></v-text-field>
                 </v-flex>
                 <v-flex md12>
                   <v-textarea v-model="editedItem.synopsis" label="Sinopse"></v-textarea>
@@ -33,7 +47,7 @@
                   <v-text-field v-model="editedItem.link" label="Link"></v-text-field>
                 </v-flex>
                 <v-flex md12>
-                  <!-- TODO Arrumar um jeito melhor de adicionar a imagem --> 
+                  <!-- TODO Arrumar um jeito melhor de adicionar a imagem -->
                   <v-text-field v-model="editedItem.image" label="Imagem"></v-text-field>
                 </v-flex>
               </v-layout>
@@ -85,16 +99,16 @@ export default {
       editedIndex: -1,
       editedItem: {
         title: '',
-        director: '',
-        country: '',
+        directors: [],
+        countries: [],
         synopsis: '',
         link: '',
         image: ''
       },
       defaultItem: {
         title: '',
-        director: '',
-        country: '',
+        directors: [],
+        countries: [],
         synopsis: '',
         link: '',
         image: ''
@@ -125,7 +139,6 @@ export default {
       const index = this.animations.indexOf(item)
       confirm('Tem certeza que deseja exluir essa animação?') &&
         this.$store.dispatch('deleteAnimation', index)
-        
     },
 
     close() {
@@ -138,7 +151,10 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
-        this.$store.dispatch('editAnimation', { index: this.editedIndex, object: this.editedItem })
+        this.$store.dispatch('editAnimation', {
+          index: this.editedIndex,
+          object: this.editedItem
+        })
       } else {
         this.$store.dispatch('addAnimation', this.editedItem)
       }
