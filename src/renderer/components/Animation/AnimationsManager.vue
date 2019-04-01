@@ -34,6 +34,8 @@
                     small-chips
                     deletable-chips
                     :return-object="false"
+                    @input="afterDirectorSelection"
+                    ref="directorsAutocomplete"
                   >
                   </v-autocomplete>
                 </v-flex>
@@ -159,6 +161,13 @@ export default {
         this.$store.dispatch('addAnimation', this.editedItem)
       }
       this.close()
+    },
+
+    afterDirectorSelection(item) {
+      this.$nextTick(() => {
+        this.$refs.directorsAutocomplete.blur()
+        this.$refs.directorsAutocomplete.focus()
+      })
     }
   }
 }
