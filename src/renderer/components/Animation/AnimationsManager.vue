@@ -50,7 +50,9 @@
                 </v-flex>
                 <v-flex md12>
                   <!-- TODO Arrumar um jeito melhor de adicionar a imagem -->
-                  <v-text-field v-model="editedItem.image" label="Imagem"></v-text-field>
+                  <v-image-upload
+                    v-model="editedItem.image"
+                  />
                 </v-flex>
               </v-layout>
             </v-container>
@@ -82,7 +84,13 @@
 </template>
 
 <script>
+import VImageUpload from '../VImageUpload';
+
 export default {
+  components: {
+    VImageUpload
+  },
+
   data() {
     return {
       dialog: false,
