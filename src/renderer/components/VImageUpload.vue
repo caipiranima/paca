@@ -111,7 +111,6 @@ export default {
       var vm = this
       const fileReader = new FileReader()
       fileReader.addEventListener('load', () => {
-        //vm.filename = fileReader.result
         vm.croppie = new Croppie(vm.$refs.image, {
           viewport: {
             width: 320,
@@ -144,8 +143,7 @@ export default {
       this.croppie.destroy()
       this.croppie = null
       this.cropping = false
-      if (this.filename === '') this.uploading = true
-      else this.updating = true
+      this.uploading = true
     }
   }
 }
