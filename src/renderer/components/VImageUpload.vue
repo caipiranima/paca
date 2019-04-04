@@ -2,20 +2,28 @@
   <div>
     <v-btn
       raised
-      :class="{ 'd-none': !uploading }"
+      :class="{ 'd-none': !uploading || (uploading && cropping) }"
       @click="onPickFile"
-      ref="btnUploadImage"
     >Escolher imagem</v-btn>
+
     <v-btn
       raised
-      :loading="loading"
-      :disabled="loading"
+      :loading="uploading"
+      :disabled="uploading"
       color="blue-grey"
       :class="{ 'd-none': !cropping, 'white--text': true }"
       @click="uploadToImgur"
-      ref="btnCropImage"
     >Cortar e fazer upload</v-btn>
-    <v-btn fab dark small color="red" :class="{ 'd-none': !editing, 'btn-remove-image': true }" @click="changeImage">
+    <v-btn raised :class="{ 'd-none': !cropping || (uploading && cropping) }" @click="cancelCrop">Cancelar</v-btn>
+
+    <v-btn
+      fab
+      dark
+      small
+      color="red"
+      :class="{ 'd-none': !editing, 'btn-remove-image': true }"
+      @click="changeImage"
+    >
       <v-icon dark>mdi-close</v-icon>
     </v-btn>
 
@@ -55,9 +63,11 @@ export default {
         this.uploading = false
         this.editing = true
       }
-      if (this.croppie !== null) this.croppie.destroy()
+      if (this.croppie !== null) {
+        this.croppie.destroy()
+        this.croppie = null
+      }
       this.cropping = false
-      this.loading = false
     }
   },
   mounted() {
@@ -71,7 +81,7 @@ export default {
 
     uploadToImgur() {
       var vm = this
-      this.loading = true
+      this.uploading = true
       this.croppie
         .result({
           type: 'base64',
@@ -81,19 +91,20 @@ export default {
           }
         })
         .then(function(image) {
+          vm.croppie.destroy()
           imgur
             .uploadBase64(image.substring(22))
             .then(json => {
               vm.cropping = false
-              vm.loading = false
+              vm.uploading = false
               vm.filename = json.data.link
               vm.$emit('input', vm.filename)
+              vm.croppie = null
             })
             .catch(function(err) {
               console.error(err.message)
             })
         })
-      this.croppie.destroy()
     },
 
     startCrop(file) {
@@ -127,6 +138,14 @@ export default {
       this.filename = ''
       this.uploading = true
       this.editing = false
+    },
+
+    cancelCrop() {
+      this.croppie.destroy()
+      this.croppie = null
+      this.cropping = false
+      if (this.filename === '') this.uploading = true
+      else this.updating = true
     }
   }
 }
@@ -144,7 +163,7 @@ img {
 }
 
 .btn-remove-image {
-  float:right;
+  float: right;
   margin-bottom: -55px;
 }
 </style>

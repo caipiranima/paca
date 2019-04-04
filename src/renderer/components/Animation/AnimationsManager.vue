@@ -49,7 +49,6 @@
                   <v-text-field v-model="editedItem.link" label="Link"></v-text-field>
                 </v-flex>
                 <v-flex md12>
-                  <!-- TODO Arrumar um jeito melhor de adicionar a imagem -->
                   <v-image-upload
                     v-model="editedItem.image"
                   />
