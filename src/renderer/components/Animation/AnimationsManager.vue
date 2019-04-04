@@ -36,11 +36,25 @@
                     :return-object="false"
                     @input="afterDirectorSelection"
                     ref="directorsAutocomplete"
-                  >
-                  </v-autocomplete>
+                  ></v-autocomplete>
                 </v-flex>
                 <v-flex md12>
-                  <v-text-field v-model="editedItem.country" label="Países"></v-text-field>
+                  <v-autocomplete
+                    v-model="editedItem.countries"
+                    :items="countries"
+                    :item-value="(obj) => (obj).id"
+                    :item-text="(obj) => (obj).name"
+                    label="Países"
+                    hide-selected
+                    hide-no-data
+                    clearable
+                    multiple
+                    small-chips
+                    deletable-chips
+                    :return-object="false"
+                    @input="afterCountrySelection"
+                    ref="countriesAutocomplete"
+                  ></v-autocomplete>
                 </v-flex>
                 <v-flex md12>
                   <v-textarea v-model="editedItem.synopsis" label="Sinopse"></v-textarea>
@@ -49,9 +63,7 @@
                   <v-text-field v-model="editedItem.link" label="Link"></v-text-field>
                 </v-flex>
                 <v-flex md12>
-                  <v-image-upload
-                    v-model="editedItem.image"
-                  />
+                  <v-image-upload v-model="editedItem.image"/>
                 </v-flex>
               </v-layout>
             </v-container>
@@ -83,7 +95,7 @@
 </template>
 
 <script>
-import VImageUpload from '../VImageUpload';
+import VImageUpload from '../VImageUpload'
 
 export default {
   components: {
@@ -174,6 +186,13 @@ export default {
       this.$nextTick(() => {
         this.$refs.directorsAutocomplete.blur()
         this.$refs.directorsAutocomplete.focus()
+      })
+    },
+
+    afterCountrySelection(item) {
+      this.$nextTick(() => {
+        this.$refs.countriesAutocomplete.blur()
+        this.$refs.countriesAutocomplete.focus()
       })
     }
   }
