@@ -153,7 +153,7 @@ export default {
 @import url('~croppie/croppie.css');
 
 img {
-  width: 100%;
+  width: 60%;
   height: 100%;
 }
 .v-btn {
@@ -162,6 +162,7 @@ img {
 
 .btn-remove-image {
   float: right;
+  margin-right: 41%;
   margin-bottom: -55px;
 }
 </style>

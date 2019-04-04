@@ -34,27 +34,21 @@ export default {
     playAnimation(animationLink) {
       document
         .getElementById('player')
-        // FIXME Implementar provider condicional (youtube ou vimeo dependendo do link) 
-        .setAttribute('data-plyr-provider', 'vimeo')
+        .setAttribute('data-plyr-provider', animationLink.includes('vimeo') ? 'vimeo' : 'youtube')
       document
         .getElementById('player')
         .setAttribute('data-plyr-embed-id', animationLink)
       const player = Plyr.setup('#player')[0]
-      //   player.source = {
-      //     type: "video",
-      //     sources: [
-      //       {
-      //         src: videoLink,
-      //         provider: "vimeo"
-      //       }
-      //     ]
-      //   };
       player.fullscreen.enter()
       player.on('ready', () => {
         player.play()
       })
 
       player.on('exitfullscreen', () => {
+        player.destroy()
+      })
+      // TODO Implementar a função de tocar uma sessão de filmes 
+      player.on('ended', () => {
         player.destroy()
       })
       //   player.on("ended", () => {

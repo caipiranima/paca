@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+// TODO Adicionar o campo "Estúdio" 
 const state = {
   animations: [],
   directors: [],

@@ -5,7 +5,7 @@
       <v-toolbar-title>Animações</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
-      <v-dialog v-model="dialog" max-width="500px">
+      <v-dialog v-model="dialog" max-width="720px">
         <template v-slot:activator="{ on }">
           <v-btn color="primary" dark class="mb-2" v-on="on">Nova animação</v-btn>
         </template>
@@ -13,14 +13,13 @@
           <v-card-title>
             <span class="headline">{{ formTitle }}</span>
           </v-card-title>
-
           <v-card-text>
             <v-container grid-list-md>
               <v-layout wrap>
-                <v-flex md12>
+                <v-flex md6>
                   <v-text-field v-model="editedItem.title" label="Título"></v-text-field>
                 </v-flex>
-                <v-flex md12>
+                <v-flex md6>
                   <v-autocomplete
                     v-model="editedItem.directors"
                     :items="directors"
@@ -38,7 +37,7 @@
                     ref="directorsAutocomplete"
                   ></v-autocomplete>
                 </v-flex>
-                <v-flex md12>
+                <v-flex md6>
                   <v-autocomplete
                     v-model="editedItem.countries"
                     :items="countries"
@@ -55,6 +54,9 @@
                     @input="afterCountrySelection"
                     ref="countriesAutocomplete"
                   ></v-autocomplete>
+                </v-flex>
+                <v-flex md6>
+                  <v-text-field label="Estúdio"></v-text-field>
                 </v-flex>
                 <v-flex md12>
                   <v-textarea v-model="editedItem.synopsis" label="Sinopse"></v-textarea>
