@@ -1,5 +1,5 @@
 <template>
-  <div id="wrapper">
+  <div>
     <v-btn to="/animations">Gerenciar biblioteca</v-btn>
     <v-container flex grid-list-lg>
       <v-layout row wrap>

@@ -238,7 +238,7 @@ export default {
 </script>
 
 <style>
-.form-wrapper {
+/* .form-wrapper {
   padding: 10px
-}
+} */
 </style>
