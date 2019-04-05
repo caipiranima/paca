@@ -5,7 +5,7 @@
     <v-btn to="/animations">Animações</v-btn>
     <v-btn to="/directors">Diretores</v-btn>
     <v-btn to="/studios">Estúdios</v-btn>
-    <v-toolbar flat color="white">
+    <v-toolbar flat>
       <v-toolbar-title>Países</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
@@ -45,7 +45,9 @@
       <template v-slot:items="props">
         <td>{{ props.item.name }}</td>
         <td>{{ props.item.history }}</td>
-        <td>{{ props.item.image }}</td>
+        <td>
+          <img :src="props.item.image" width="100px" />
+        </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">mdi-lead-pencil</v-icon>
           <v-icon small @click="deleteItem(props.item)">mdi-delete</v-icon>

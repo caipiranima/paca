@@ -5,7 +5,7 @@
     <v-btn to="/directors">Diretores</v-btn>
     <v-btn to="/countries">Países</v-btn>
     <v-btn to="/studios">Estúdios</v-btn>
-    <v-toolbar flat color="white">
+    <v-toolbar flat>
       <v-toolbar-title>Animações</v-toolbar-title>
       <v-divider class="mx-2" inset vertical></v-divider>
       <v-spacer></v-spacer>
@@ -98,7 +98,7 @@
         </v-card>
       </v-dialog>
     </v-toolbar>
-    <v-data-table :headers="headers" :items="animations" class="elevation-1">
+    <v-data-table :headers="headers" :items="animations" class="elevation-1" expand>
       <template v-slot:items="props">
         <td>{{ props.item.title }}</td>
         <td>{{ directors.filter(x => props.item.directors.includes(x.id) ).map(x => x.name).join(', ') }}</td>
@@ -106,7 +106,9 @@
         <td>{{ studios.filter(x => props.item.studios.includes(x.id) ).map(x => x.name).join(', ') }}</td>
         <td>{{ props.item.synopsis }}</td>
         <td>{{ props.item.link }}</td>
-        <td>{{ props.item.image }}</td>
+        <td>
+          <img :src="props.item.image" width="100px" />
+        </td>
         <td class="justify-center layout px-0">
           <v-icon small class="mr-2" @click="editItem(props.item)">mdi-lead-pencil</v-icon>
           <v-icon small @click="deleteItem(props.item)">mdi-delete</v-icon>
