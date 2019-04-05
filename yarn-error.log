@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/bin/node /usr/bin/yarn add appveyor.yml build dist library.json LICENSE node_modules package.json README.md src static yarn.lock
+  /usr/bin/node /usr/bin/yarn add appveyor.yml build dist library.json LICENSE node_modules package.json README.md src static yarn-error.log yarn.lock
 
 PATH: 
   /home/filipeam/.local/bin:/home/filipeam/.gem/ruby/2.6.0/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/opt/cuda/bin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
@@ -8,7 +8,7 @@ Yarn version:
   1.15.2
 
 Node version: 
-  11.11.0
+  11.13.0
 
 Platform: 
   linux x64
@@ -17,14 +17,14 @@ Trace:
   Error: https://registry.yarnpkg.com/appveyor.yml: Not found
       at Request.params.callback [as _callback] (/usr/lib/node_modules/yarn/lib/cli.js:66058:18)
       at Request.self.callback (/usr/lib/node_modules/yarn/lib/cli.js:129541:22)
-      at Request.emit (events.js:197:13)
+      at Request.emit (events.js:193:13)
       at Request.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:130513:10)
-      at Request.emit (events.js:197:13)
+      at Request.emit (events.js:193:13)
       at IncomingMessage.<anonymous> (/usr/lib/node_modules/yarn/lib/cli.js:130435:12)
-      at Object.onceWrapper (events.js:285:13)
-      at IncomingMessage.emit (events.js:202:15)
-      at endReadableNT (_stream_readable.js:1132:12)
-      at processTicksAndRejections (internal/process/next_tick.js:76:17)
+      at Object.onceWrapper (events.js:281:20)
+      at IncomingMessage.emit (events.js:198:15)
+      at endReadableNT (_stream_readable.js:1142:12)
+      at processTicksAndRejections (internal/process/task_queues.js:81:17)
 
 npm manifest: 
   {
@@ -82,6 +82,8 @@ npm manifest:
     "dependencies": {
       "@mdi/font": "^3.5.95",
       "axios": "^0.18.0",
+      "croppie": "^2.6.3",
+      "imgur": "^0.3.1",
       "plyr": "^3.5.2",
       "vue": "^2.5.16",
       "vue-electron": "^1.0.6",
@@ -2227,7 +2229,7 @@ Lockfile:
     dependencies:
       graceful-readlink ">= 1.0.0"
   
-  commander@^2.19.0, commander@~2.19.0:
+  commander@^2.19.0, commander@^2.3.0, commander@~2.19.0:
     version "2.19.0"
     resolved "https://registry.yarnpkg.com/commander/-/commander-2.19.0.tgz#f6198aa84e5b83c46054b94ddedbfed5ee9ff12a"
     integrity sha512-6tvAOO+D6OENvRAh524Dh9jcfKTYDQAqvqezbCW82xj5X0pSrcpxtvRKHLG0yBY6SD7PSDrJaj+0AiOcKVd1Xg==
@@ -2447,6 +2449,11 @@ Lockfile:
       ripemd160 "^2.0.0"
       safe-buffer "^5.0.1"
       sha.js "^2.4.8"
+  
+  croppie@^2.6.3:
+    version "2.6.3"
+    resolved "https://registry.yarnpkg.com/croppie/-/croppie-2.6.3.tgz#fab2a47e7559c010e91b3d8681dc73b410a8aaba"
+    integrity sha512-x0EGQF5GwUTzW7igxFu0eP9UM5JsK/3y0hIiFIVjV6zLd4EMsGZDIKhh7XwppQoZMDyEun3Ge7fWlu1jzp+iuA==
   
   cross-env@^5.1.6:
     version "5.2.0"
@@ -4128,6 +4135,16 @@ Lockfile:
     version "3.3.10"
     resolved "https://registry.yarnpkg.com/ignore/-/ignore-3.3.10.tgz#0a97fb876986e8081c631160f8f9f389157f0043"
     integrity sha512-Pgs951kaMm5GXP7MOvxERINe3gsaVjUWFm+UZPSq9xYriQAksyhg0csnS0KXSNRD5NmNdapXEpjxG49+AKh/ug==
+  
+  imgur@^0.3.1:
+    version "0.3.1"
+    resolved "https://registry.yarnpkg.com/imgur/-/imgur-0.3.1.tgz#8b13b424a88f91239c147af9ad78283510065398"
+    integrity sha512-G7uUSD4nUIvZwpoBxkADKRGmh6ZDz/8MrxWrXJ6hogAyoYYiwzMzm8RvGjt8LzmHSv8SapCIbyr6BNBV3fLVrA==
+    dependencies:
+      commander "^2.3.0"
+      glob "^7.1.2"
+      q "^1.0.1"
+      request "^2.40.0"
   
   import-lazy@^2.1.0:
     version "2.1.0"
@@ -6228,6 +6245,11 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/punycode/-/punycode-2.1.1.tgz#b58b010ac40c22c5657616c8d2c2c02c7bf479ec"
     integrity sha512-XRsRjdf+j5ml+y/6GKHPZbrF/8p2Yga0JPtdqTIY2Xe5ohJPD9saDJJLPvp9+NSBprVvevdXZybnj2cv8OEd0A==
   
+  q@^1.0.1:
+    version "1.5.1"
+    resolved "https://registry.yarnpkg.com/q/-/q-1.5.1.tgz#7e32f75b41381291d04611f1bf14109ac00651d7"
+    integrity sha1-fjL3W0E4EpHQRhHxvxQQmsAGUdc=
+  
   qs@6.5.2, qs@~6.5.2:
     version "6.5.2"
     resolved "https://registry.yarnpkg.com/qs/-/qs-6.5.2.tgz#cb3ae806e8740444584ef154ce8ee98d403f3e36"
@@ -6490,7 +6512,7 @@ Lockfile:
     dependencies:
       is-finite "^1.0.0"
   
-  request@^2.45.0, request@^2.87.0, request@^2.88.0:
+  request@^2.40.0, request@^2.45.0, request@^2.87.0, request@^2.88.0:
     version "2.88.0"
     resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
     integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==

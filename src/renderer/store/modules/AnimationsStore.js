@@ -1,13 +1,15 @@
-import axios from 'axios'
+import path from 'path'
+import fs from 'fs'
 
-// TODO Adicionar o campo "Estúdio" 
 const state = {
   animations: [],
   directors: [],
   countries: [],
+  studios: [],
   lastAnimationID: 0,
   lastDirectorID: 0,
-  lastCountryID: 0
+  lastCountryID: 0,
+  lastStudioID: 0
 }
 
 const getters = {
@@ -21,6 +23,10 @@ const getters = {
 
   countries() {
     return state.countries
+  },
+
+  studios() {
+    return state.studios
   }
 }
 
@@ -64,6 +70,19 @@ const mutations = {
     Object.assign(state.countries[country.index], country.object)
   },
 
+  ADD_STUDIO(state, studio) {
+    studio.id = ++state.lastStudioID
+    state.studios.push(studio)
+  },
+
+  DELETE_STUDIO(state, index) {
+    state.studios.splice(index, 1)
+  },
+
+  EDIT_STUDIO(state, studio) {
+    Object.assign(state.studios[studio.index], studio.object)
+  },
+
   LOAD_LIBRARY(state, data) {
     data.animations.forEach(animation => {
       state.animations.push(animation)
@@ -74,9 +93,13 @@ const mutations = {
     data.countries.forEach(country => {
       state.countries.push(country)
     })
+    data.studios.forEach(studio => {
+      state.studios.push(studio)
+    })
     state.lastAnimationID = data.lastAnimationID
     state.lastDirectorID = data.lastDirectorID
     state.lastCountryID = data.lastCountryID
+    state.lastStudioID = data.lastStudioID
   }
 }
 
@@ -117,12 +140,34 @@ const actions = {
     commit('EDIT_COUNTRY', country)
   },
 
+  addStudio({ commit }, studio) {
+    commit('ADD_STUDIO', studio)
+  },
+
+  deleteStudio({ commit }, index) {
+    commit('DELETE_STUDIO', index)
+  },
+
+  editStudio({ commit }, studio) {
+    commit('EDIT_STUDIO', studio)
+  },
+
   loadLibrary({ commit }) {
-    axios
-      .get('http://caipiranima.com.br/paca/dados/biblioteca.json')
-      .then(response => {
-        commit('LOAD_LIBRARY', response.data)
-      })
+    const filePath = path.join(__static, 'biblioteca.json')
+
+    fs.readFile(filePath, { flag: 'r' }, (err, data) => {
+      try {
+        commit('LOAD_LIBRARY', JSON.parse(data))
+      } catch (e) {}
+    })
+  },
+
+  saveLibrary({ commit }) {
+    const filePath = path.join(__static, 'biblioteca.json')
+
+    fs.writeFile(filePath, JSON.stringify(state), err => {
+      if (err) throw err
+    })
   }
 }
 

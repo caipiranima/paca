@@ -1,6 +1,6 @@
 <template>
   <div id="wrapper">
-    <router-link to="/animation">Adicionar animações</router-link>
+    <v-btn to="/animations">Gerenciar biblioteca</v-btn>
     <v-container flex grid-list-lg>
       <v-layout row wrap>
         <animation
